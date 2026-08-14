@@ -166,7 +166,7 @@ testing::infra::stream
     with C streams is system-dependent.
 
 
-testing::inftra::tmpdir
+testing::infra::tmpdir
 ~~~~~~~~~~~~~~~~~~~~~~~
 ``TmpDir``
     Create a temporary directory for a test. Test directories are not
@@ -193,8 +193,7 @@ Install using Conan
 ~~~~~~~~~~~~~~~~~~~
 
 Install the library from source as *Conan* package and configure the test
-project to use *Conan* presets. This installs *GoogleTest* as a transitive
-dependency.
+project to use *Conan* presets.
 
 .. code-block:: python
 
@@ -215,7 +214,7 @@ dependency.
         def requirements(self):
             """ Define project requirements. """
             self.requires("gtest-infra/1.0.0")
-            self.requires("gtest/1.14.0")
+            self.requires("gtest/1.18.0")
             return
 
         def layout(self):
@@ -237,7 +236,7 @@ dependency.
     # Locate dependencies for use with `target_link_library()`.
 
     find_package(GTest REQUIRED)
-    find_package(GTestFixture REQUIRED)
+    find_package(GTestInfra REQUIRED)
 
 
 Install using vcpkg
@@ -272,7 +271,7 @@ transitive dependency.
     # Locate dependencies for use with `target_link_library()`.
 
     find_package(GTest REQUIRED)
-    find_package(GTestFixture REQUIRED)
+    find_package(GTestInfra REQUIRED)
 
 
 Install using CMake FetchContent
@@ -288,15 +287,15 @@ CMake `FetchContent`_.
 
     FetchContent_Declare(googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.14.0
+        GIT_TAG v1.18.0
     )
     FetchContent_MakeAvailable(googletest)
 
-    FetchContent_Declare(gtest-target
+    FetchContent_Declare(gtest-infra
         GIT_REPOSITORY https://github.com/mdklatt/gtest-infra.git
         GIT_TAG v1.0.0
     )
-    FetchContent_MakeAvailable(gtest-target)
+    FetchContent_MakeAvailable(gtest-infra)
 
 
 Install as a CMake external build tree
@@ -307,7 +306,7 @@ external source trees that will be built as part of the project.
 
 .. code-block:: shell
 
-   git clone --branch=v1.14.0 --depth=1  https://github.com/google/googletest.git vendor/googletest
+   git clone --branch=v1.18.0 --depth=1  https://github.com/google/googletest.git vendor/googletest
    git clone --branch=v1.0.0 --depth=1 https://github.com/mdklatt/gtest-infra.git vendor/gtest-infra
 
 
@@ -352,9 +351,9 @@ test framework. The exception is the ``tmpdir`` module, which uses the
 dependency when building *gtest-infra*, but not when using it.
 
 Projects that use *GoogleTest* and *gtest-infra* together should pick a
-mutually compatible version. *GoogleTest* does not use Sematic Versioning, so
+mutually compatible version. *GoogleTest* does not use Semantic Versioning, so
 beware that even a minor version change may break backwards compatibility. The
-version range specified in *conanfile.py* is known work with *gtest-infra*.
+version range specified in *conanfile.py* is known to work with *gtest-infra*.
 Projects that want to try a new version can force this in their own
 *conanfile*:
 
