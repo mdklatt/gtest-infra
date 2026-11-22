@@ -76,14 +76,3 @@ install(EXPORT GTestInfraTargets
     NAMESPACE GTestInfra::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/GTestInfra
 )
-
-# Export targets from the source tree. If an external project adds this project
-# to its build tree via `add_subdirectory()`, then `find_package()` will work
-# without requiring this project to be installed.
-if(PROJECT_IS_TOP_LEVEL)
-    export(EXPORT GTestInfraTargets
-        FILE ${CMAKE_CURRENT_BINARY_DIR}/GTestInfraTargets.cmake
-        NAMESPACE GTestInfra::
-    )
-    export(PACKAGE GTestInfra)
-endif()
