@@ -1,3 +1,10 @@
+# Find dependencies.
+
+if(NOT TARGET GTest::gtest)
+    find_package(GTest REQUIRED)
+endif()
+
+
 # Define targets.
 
 add_executable(test_lib

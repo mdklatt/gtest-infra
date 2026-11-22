@@ -23,12 +23,9 @@ include(DebugASanBuildType)
 
 option(BUILD_DOCS "Build documentation" OFF)
 
-set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
-find_package(GTest REQUIRED)
 
 add_subdirectory(src)
 
