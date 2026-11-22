@@ -27,6 +27,7 @@ def package():
     # Expects the project root to be $PWD.
     argv = ["conan", "create", str(Path.cwd())]
     process = run(argv, capture_output=True)
+    stderr = process.stderr.decode().splitlines()
     if process.returncode != 0:
         raise RuntimeError(f"conan create failed: {process.returncode}")
     return

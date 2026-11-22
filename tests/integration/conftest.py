@@ -87,7 +87,7 @@ def conan(tmp_path_factory, build_type, recipe):
         f"--settings=build_type={build_type}",
     ]
     process = run(argv, stdout=PIPE, stderr=STDOUT, text=True)
-    output = process.stdout.split("\n")  # debugging
+    output = process.stdout.splitlines()  # for debugging
     if process.returncode != 0:
         raise RuntimeError(f"conan install failed: {process.returncode}")
     toolchain = root / "conan_toolchain.cmake"
@@ -104,7 +104,7 @@ def build(build_type, conan) -> Callable:
         """ Execute `cmake` command. """
         argv = ["cmake"] + list(map(str, args))
         process = run(argv, stdout=PIPE, stderr=STDOUT, text=True)
-        output = process.stdout.split("\n")  # debugging
+        stdout = process.stdout.splitlines()  # for debugging
         if process.returncode != 0:
             raise RuntimeError(f"cmake failed: {process.returncode}")
         return
