@@ -45,12 +45,21 @@ def build_type(request) -> str:
 
 
 @pytest.fixture(scope="module")
-def requires() -> list[str]:
+def gtest() -> tuple[str, str]:
+    """ Google Test requirement for testing.
+
+    :return: (name, version)
+    """
+    return "gtest", "1.18.0"  # latest known version
+
+
+@pytest.fixture(scope="module")
+def requires(gtest) -> list[str]:
     """ Conan requirement specifiers.
 
     :return: requirements
     """
-    return ["gtest/1.18.0"]  # test against the latest version
+    return ["/".join(gtest)]
 
 
 @pytest.fixture(scope="module")

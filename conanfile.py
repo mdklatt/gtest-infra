@@ -36,8 +36,6 @@ class ProjectRecipe(ConanFile):
         "cmake/*",
     ]
 
-    #test_package_folder = "tests/package"
-
     def set_version(self):
         """ Set the project version from a file.
 

@@ -11,12 +11,16 @@ import pytest
     "LIBRARY_FETCH_DIR",  # FetchContent
     "LIBRARY_SOURCE_DIR",  # add_subdirectory()
 ])
-def test_lib(build, build_dir, key):
+def test_lib(build, build_dir, gtest, key):
     """ Test the library as part of an application.
 
     """
+    defs = {
+        key: Path.cwd(),
+        "GTEST_VERSION": gtest[1],
+    }
     source_dir = Path(__file__).parent / "src"
-    build(source_dir, build_dir, {key: Path.cwd()})
+    build(source_dir, build_dir, defs)
     exe = build_dir / "test_lib"
     process = run([str(exe)], capture_output=True)
     stderr = process.stderr.decode().splitlines()  # for debugging

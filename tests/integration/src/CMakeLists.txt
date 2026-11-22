@@ -12,8 +12,8 @@ elseif(DEFINED LIBRARY_FETCH_DIR)
     # Use FetchContent to add dependencies.
     include(FetchContent)
     FetchContent_Declare(googletest
-        GIT_REPOSITORY  https://github.com/google/googletest
-        GIT_TAG v1.18.0  # latest known compatible version
+        GIT_REPOSITORY "https://github.com/google/googletest"
+        GIT_TAG "v${GTEST_VERSION}"
     )
     message("Using FetchContent for ${LIBRARY_FETCH_DIR}")
     FetchContent_Declare(gtest-infra
@@ -36,7 +36,3 @@ PRIVATE
     GTest::gtest
     GTest::gtest_main
 )
-#target_compile_features(test_lib
-#PRIVATE
-#    cxx_std_17
-#)
