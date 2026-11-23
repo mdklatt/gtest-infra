@@ -18,7 +18,6 @@ add_library(gtest-infra
 )
 add_library(GTestInfra::gtest-infra ALIAS gtest-infra)
 
-
 target_include_directories(gtest-infra
 PUBLIC
     # Interface paths are relative to the installation path, not the current
@@ -32,13 +31,12 @@ PRIVATE
 )
 
 target_compile_features(gtest-infra
-PUBLIC
+PRIVATE
     cxx_std_17
 )
 
 
 # Generate package config files.
-
 
 configure_package_config_file(
     cmake/GTestInfraConfig.cmake.in
@@ -54,25 +52,27 @@ write_basic_package_version_file(
 )
 
 
-# Define installation rules.
+# Define installation rules. Installation is disabled if this is being used as
+# external project, e.g. via add_subdirectory() or FetchContent.
 
-install(TARGETS gtest-infra
-    EXPORT GTestInfraTargets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+if(PROJECT_IS_TOP_LEVEL)
+    install(TARGETS gtest-infra
+        EXPORT GTestInfraTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
 
+    install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/GTestInfraConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/GTestInfraConfigVersion.cmake
+    DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/GTestInfra
+    )
 
-install(
-FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/GTestInfraConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/GTestInfraConfigVersion.cmake
-DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}/cmake/GTestInfra
-)
-
-install(EXPORT GTestInfraTargets
-    FILE GTestInfraTargets.cmake
-    NAMESPACE GTestInfra::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/GTestInfra
-)
+    install(EXPORT GTestInfraTargets
+        FILE GTestInfraTargets.cmake
+        NAMESPACE GTestInfra::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/GTestInfra
+    )
+endif()

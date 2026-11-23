@@ -11,6 +11,8 @@ if(DEFINED LIBRARY_SOURCE_DIR)
 elseif(DEFINED LIBRARY_FETCH_DIR)
     # Use FetchContent to add dependencies.
     include(FetchContent)
+    set(INSTALL_GTEST OFF CACHE BOOL "")
+    set(BUILD_GMOCK OFF CACHE BOOL "")
     FetchContent_Declare(googletest
         GIT_REPOSITORY "https://github.com/google/googletest"
         GIT_TAG "v${GTEST_VERSION}"

@@ -11,12 +11,22 @@ if(PROJECT_VERSION STREQUAL "")
     message(FATAL_ERROR "${_version_file} is empty")
 endif()
 message(STATUS "Setting PROJECT_VERSION=${PROJECT_VERSION} from ${_version_file}")
+
 project(GTestInfra
     # Semantic Versioning: <https://semver.org>
     # The build number is optional and designates a dev version.
     VERSION ${PROJECT_VERSION}
     LANGUAGES CXX
 )
+
+if(CMAKE_VERSION VERSION_LESS 3.21)
+    message(AUTHOR_WARNING "Using backward compatibility workaround for PROJECT_IS_TOP_LEVEL")
+    if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+        set(PROJECT_IS_TOP_LEVEL ON)
+    else()
+        set(PROJECT_IS_TOP_LEVEL OFF)
+    endif()
+endif()
 
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
 include(DebugASanBuildType)
@@ -26,12 +36,19 @@ option(BUILD_DOCS "Build documentation" OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
 add_subdirectory(src)
 
-include(GNUInstallDirs)
+if(NOT PROJECT_IS_TOP_LEVEL)
+    # This project is included as a subproject, so ignore installation and
+    # testing.
+    return()
+endif()
 
+
+# Define installation rules.
+include(GNUInstallDirs)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 
 # Generate the vcpkg config file. This file is flagged for update when the
 # version file is modified.
