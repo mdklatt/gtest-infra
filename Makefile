@@ -22,13 +22,14 @@ conan: conanfile.py
 
 .PHONY: dev
 dev: $(VENV)/.make-update conan
-	cmake --preset conan-debug
-	cmake --preset conan-release
+	cmake -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -S . -B build/Debug
+	cmake -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -S . -B build/Release
 
 
 .PHONY: build
 build: dev
-	cmake --build --preset conan-debug
+	cmake --build build/Debug
+	cmake --build build/Release
 
 
 .PHONY: test-unit

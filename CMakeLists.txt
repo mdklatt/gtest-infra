@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.16)
 
 # Get the project version from an external file that is also used by Conan.
 # Setting `CMAKE_CONFIGURE_DEPENDS` on the version file flags the configure
