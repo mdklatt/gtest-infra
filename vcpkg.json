@@ -1,6 +1,6 @@
 {
   "name": "gtest-infra",
-  "version": "0.1.0.40",
+  "version": "1.0.0",
   "dependencies": [
     {
       "name": "gtest",
